@@ -131,7 +131,7 @@ class Client (object):
             self.read_escape = True
             return
 
-        if self.read_escape and data == '.':
+        if self.read_escape and data == b'.':
             self.log.debug('exit on escape code')
             raise UserExit()
         elif self.read_escape:
@@ -140,7 +140,7 @@ class Client (object):
 
         self.ws.send(data)
 
-        if data == '\r':
+        if data == b'\r':  # Y.Kawada
             self.start_of_line = True
         else:
             self.start_of_line = False
@@ -160,5 +160,9 @@ class Client (object):
         if not data:
             return
 
+        data = data.decode('utf-8')  # Y.Kawada for python3
+        self.log.debug('read2 %s (%d bytes) from websocket',
+                       repr(data),
+                       len(data))
         sys.stdout.write(data)
         sys.stdout.flush()
