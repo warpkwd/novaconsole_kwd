@@ -51,3 +51,7 @@ Or you can clone the repository by hand and run `setup.py`:
     cd novaconsole
     python setup.py install
 
+
+==
+Y.Kawada
+   Does not work with websocket_client-0.35.0 later.
