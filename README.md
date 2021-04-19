@@ -52,6 +52,14 @@ Or you can clone the repository by hand and run `setup.py`:
     python setup.py install
 
 
-==
-Y.Kawada
+## Note
+```
+   This is for Python3 by Y.Kawada
    Does not work with websocket_client-0.35.0 later.
+```
+## Installation
+```
+   python3 setup.py bdist
+   cd ./dist
+   sudo tar xzf *.tgz -C /
+```
