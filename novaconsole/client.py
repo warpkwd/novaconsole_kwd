@@ -28,6 +28,7 @@ class Client (object):
                  close_wait=0.5,
                  subprotocols=None):
         self.url = url
+        # Y.Kawada
         self.escape = escape
         self.close_wait = close_wait
 
@@ -127,12 +128,13 @@ class Client (object):
         if not data:
             return
 
-        if self.start_of_line and data == self.escape:
+        if self.start_of_line and data == self.escape.encode():
             self.read_escape = True
+            self.log.debug('read_escape:%s' % self.read_escape)
             return
 
         if self.read_escape and data == b'.':
-            self.log.debug('exit on escape code')
+            self.log.debug('exit on escape code:%s' % data)
             raise UserExit()
         elif self.read_escape:
             self.read_escape = False
