@@ -4,7 +4,7 @@ import logging
 import os
 import select
 import socket
-import sys
+import io, sys
 import termios
 import time
 import tty
@@ -21,6 +21,8 @@ except ImportError:
                   'more information.')
     sys.exit()
 
+# Y.Kawada
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 class Client (object):
     def __init__(self, url,
@@ -28,7 +30,6 @@ class Client (object):
                  close_wait=0.5,
                  subprotocols=None):
         self.url = url
-        # Y.Kawada
         self.escape = escape
         self.close_wait = close_wait
 
@@ -40,6 +41,8 @@ class Client (object):
 
     def setup_logging(self):
         self.log = logging.getLogger('novaconsole.client')
+        fh = logging.FileHandler('/var/log/nova/novaconsole.log')
+        self.log.addHandler(fh)
 
     def connect(self):
         self.log.debug('connecting to: %s', self.url)
@@ -128,6 +131,7 @@ class Client (object):
         if not data:
             return
 
+        # Y.Kawada
         if self.start_of_line and data == self.escape.encode():
             self.read_escape = True
             self.log.debug('read_escape:%s' % self.read_escape)
