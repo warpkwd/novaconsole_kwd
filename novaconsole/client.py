@@ -22,7 +22,9 @@ except ImportError:
     sys.exit()
 
 # Y.Kawada
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdin  = io.TextIOWrapper(sys.stdin.buffer,  encoding='utf-8', errors='igonre')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='ignore')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='ignore')
 
 class Client (object):
     def __init__(self, url,
@@ -166,7 +168,7 @@ class Client (object):
         if not data:
             return
 
-        data = data.decode('utf-8')  # Y.Kawada for python3
+        data = data.decode('utf-8', 'ignore')  # Y.Kawada for python3
         self.log.debug('read2 %s (%d bytes) from websocket',
                        repr(data),
                        len(data))
